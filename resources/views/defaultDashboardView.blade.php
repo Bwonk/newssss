@@ -16,7 +16,6 @@
 
 <body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen">
 
-    <!-- Sidebar -->
     <div class="flex min-h-screen">
         <div class="sidebar bg-white h-screen w-64 fixed shadow-lg flex flex-col justify-between">
             <nav class="mt-4">
@@ -67,12 +66,12 @@
                 </div>
             </div>
         </div>
-
-        <!-- Main Content -->
         <div class="ml-64 flex-1">
-            <header class="bg-white shadow-sm">
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">@yield('breadcrumb', 'Dashboard')</h1>
+            <header class="bg-gradient-to-r from-indigo-50 via-white to-pink-50 shadow-sm">
+                <div class="mx-auto max-w-9xl px-4 py-5 sm:px-6 lg:px-8">
+                    <h1 class="text-2xl sm:text-2xl font-bold tracking-wide text-black uppercase select-none text-left">
+                        @yield('breadcrumb', 'Dashboard')
+                    </h1>
                 </div>
             </header>
 

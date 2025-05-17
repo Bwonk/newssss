@@ -340,59 +340,83 @@
             </div>
         </div>
     </div>
-
-    {{-- Modal --}}
     <form action="{{ route('dashboard.post') }}" method="post">
         @csrf
         <div id="crud-modal" tabindex="-1" aria-hidden="true"
-            class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full flex justify-center items-center">
-            <div class="relative w-full max-w-md max-h-full">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-[calc(100%-1rem)] max-h-full flex justify-center items-center bg-black/40">
+            <div class="relative w-full max-w-lg max-h-full">
+                <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-800">
 
-                    <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                            Yeni Ürün Ekle
+                    <div class="flex items-center justify-between p-6 border-b dark:border-gray-700 bg-indigo-50 dark:bg-gray-900 rounded-t-lg">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Yeni Kargo / Adres Ekle
                         </h3>
-                        <button type="button" class="text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                            data-modal-toggle="crud-modal">
-                            ×
-                        </button>
+                        <button type="button" class="text-gray-400 hover:text-gray-900 dark:hover:text-white text-2xl font-bold" data-modal-toggle="crud-modal">×</button>
                     </div>
 
-                    <div class="p-4 space-y-4">
-                        <label for="product-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Kargo Durumu Seçiniz
-                        </label>
-                        <select name="company_id" id="company_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            required>
-                            <option selected disabled>Satıcı Seçin</option>
-                            <option value="1">Depodan Teslim Alındı</option>
-                            <option value="2">Yola Çıktı</option>
-                            <option value="3">Dağıtımda</option>
-                            <option value="4">Teslim Edildi</option>
-                            <option value="5">İptal Edildi</option>
-                        </select>
+                    <div class="p-6 space-y-6">
+                        <div>
+                            <label for="cargo_status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kargo Durumu Seçiniz</label>
+                            <select name="cargo_status" id="cargo_status"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+                                <option selected disabled>Kargo Durumu Seçin</option>
+                                <option value="1">Depodan Teslim Alındı</option>
+                                <option value="2">Yola Çıktı</option>
+                                <option value="3">Dağıtımda</option>
+                                <option value="4">Teslim Edildi</option>
+                                <option value="5">İptal Edildi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Satıcı Seçiniz</label>
+                            <select name="company_id" id="company_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+                                <option selected disabled>Satıcı Seçin</option>
+                                @foreach ($companies as $co)
+                                    <option value="{{ $co->companies_id }}">{{ $co->companies_name }} / {{ $co->companies_country }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="recipient_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alıcı Adı</label>
+                                <input type="text" name="recipient_name" id="recipient_name" placeholder="Alıcı adı" required
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="recipient_phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefon</label>
+                                <input type="tel" name="recipient_phone" id="recipient_phone" placeholder="05xx xxx xx xx" required pattern="[0-9]{10,15}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="recipient_address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adres</label>
+                            <textarea name="recipient_address" id="recipient_address" rows="2" placeholder="Açık adres" required
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="recipient_city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Şehir</label>
+                                <input type="text" name="recipient_city" id="recipient_city" placeholder="Şehir" required
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="recipient_country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ülke</label>
+                                <input type="text" name="recipient_country" id="recipient_country" placeholder="Ülke" required
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                            <div>
+                                <label for="recipient_postal" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Posta Kodu</label>
+                                <input type="text" name="recipient_postal" id="recipient_postal" placeholder="Posta Kodu" required pattern="[0-9]{4,10}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="p-4 space-y-4">
-                        <label for="company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Satıcı Seçiniz
-                        </label>
-                        <select name="company_id" id="company_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            required>
-                            <option selected disabled>Satıcı Seçin</option>
-                            @foreach ($companies as $co)
-                                <option value="{{ $co->companies_id }}">{{ $co->companies_name }} /
-                                    {{ $co->companies_country }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="flex justify-end p-4 border-t border-gray-200 dark:border-gray-600">
+                    <div class="flex justify-end p-6 border-t border-gray-200 dark:border-gray-700 bg-indigo-50 dark:bg-gray-900 rounded-b-lg">
                         <button type="submit"
-                            class="text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                            class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-lg text-base px-6 py-2.5 text-center shadow transition-all">
                             Kaydet
                         </button>
                     </div>
